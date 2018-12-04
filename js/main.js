@@ -56,3 +56,8 @@ var getDescriptions = function (num) {
 };
 
 var descriptions = getDescriptions(DESCRIPTIONS_COUNTS);
+
+var similarListElement = document.querySelector('.pictures');
+var similarPictureTemplate = document.querySelector('#picture')
+    .content
+    .querySelector('.picture');
