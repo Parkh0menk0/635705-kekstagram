@@ -80,7 +80,7 @@ var similarPictureTemplate = document.querySelector('#picture')
 var renderPicture = function (description) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('.picture__img').textContent = description.url;
+  pictureElement.querySelector('.picture__img').src = description.url;
   pictureElement.querySelector('.picture__likes').textContent = description.likes;
   pictureElement.querySelector('.picture__comments').textContent = description.comments;
 
@@ -94,3 +94,16 @@ for (var i = 0; i < descriptions.length; i++) {
 }
 
 similarListElement.appendChild(fragment);
+
+var bigPicture = document.querySelector('.big-picture');
+bigPicture.classList.remove('hidden');
+bigPicture.querySelector('.big-picture__img').src = description[0].url;
+bigPicture.querySelector('.likes-count').textContent = description[0].likes;
+bigPicture.querySelector('.comments-count').textContent = description[0].comments.length;
+
+var socialComments = document.querySelector('.social__comments');
+socialComments.querySelector('.social__picture').src = description[0].comments.avatar;
+socialComments.querySelector('.social__text').textContent = description[0].comments.message;
+
+document.querySelector('.social__comment-count').classList.add('visually-hidden');
+document.querySelector('.comments-loader').classList.add('visually-hidden');
