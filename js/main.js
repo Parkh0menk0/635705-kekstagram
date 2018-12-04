@@ -2,6 +2,8 @@
 
 var DESCRIPTIONS_COUNT = 25;
 
+var PICTURE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+
 var MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -19,6 +21,19 @@ var NAMES = [
   'Таисия',
   'Виктория'
 ];
+
+var randomPicture = function (num) {
+  for (var k = 0; k < num.length; k++) {
+    var rand = 1 - 0.5 + Math.random() * (25 - 1 + 1);
+    if (rand !== num[i]) {
+      continue;
+    } else {
+      num.splice(num.indexOf(rand), 1);
+      break;
+    }
+  }
+  return Math.round(rand);
+};
 
 var random = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -40,7 +55,7 @@ var createComments = function () {
 
 var createDescription = function () {
   var description = {
-    url: random(1, 25),
+    url: 'photos/' + randomPicture(PICTURE_NUMBERS) + '.jpg',
     likes: random(15, 200),
     comments: createComments()
   }
@@ -50,7 +65,7 @@ var createDescription = function () {
 var getDescriptions = function (num) {
   var descriptions = [];
   for (var j = 0; j < num; j++) {
-    descriptions[j].push(createDescription());
+    descriptions.push(createDescription());
   }
   return descriptions;
 };
@@ -62,8 +77,20 @@ var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 
-for (var i = 0; i < DESCRIPTIONS_COUNT; i++) {
+var renderPicture = function (description) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
-  similarListElement.appendChild(pictureElement);
+  pictureElement.querySelector('.picture__img').textContent = description.url;
+  pictureElement.querySelector('.picture__likes').textContent = description.likes;
+  pictureElement.querySelector('.picture__comments').textContent = description.comments;
+
+  return pictureElement;
 }
+
+var fragment = document.createDocumentFragment();
+
+for (var i = 0; i < descriptions.length; i++) {
+  fragment.appendChild(renderPicture(descriptions[i]));
+}
+
+similarListElement.appendChild(fragment);
