@@ -1,6 +1,6 @@
 'use strict';
 
-var DESCRIPTIONS_COUNTS = 25;
+var DESCRIPTIONS_COUNT = 25;
 
 var MESSAGES = [
   'Всё отлично!',
@@ -55,9 +55,15 @@ var getDescriptions = function (num) {
   return descriptions;
 };
 
-var descriptions = getDescriptions(DESCRIPTIONS_COUNTS);
+var descriptions = getDescriptions(DESCRIPTIONS_COUNT);
 
 var similarListElement = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
+
+for (var i = 0; i < DESCRIPTIONS_COUNT; i++) {
+  var pictureElement = similarPictureTemplate.cloneNode(true);
+
+  similarListElement.appendChild(pictureElement);
+}
