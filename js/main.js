@@ -37,8 +37,8 @@ var createComments = function () {
   for (var i = 0; i < num; i++) {
     var comment = {
       avatar: 'img/avatar-' + random(1, 6) + '.svg',
-      message: MESSAGES[random(1, 6)],
-      name: NAMES[random(1, 6)]
+      message: MESSAGES[random(0, 5)],
+      name: NAMES[random(0, 5)]
     };
     comments.push(comment);
   }
