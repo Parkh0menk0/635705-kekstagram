@@ -1,9 +1,7 @@
 'use strict';
 
-var DESCRIPTIONS_COUNT = 25;
-
+var DATA_COUNT = 25;
 var PICTURE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-
 var MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -12,7 +10,6 @@ var MESSAGES = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-
 var NAMES = [
   'Артём',
   'Игорь',
@@ -21,6 +18,15 @@ var NAMES = [
   'Таисия',
   'Виктория'
 ];
+
+var data = [];
+var fragment = document.createDocumentFragment();
+var similarListElement = document.querySelector('.pictures');
+var similarPictureTemplate = document.querySelector('#picture')
+    .content
+    .querySelector('.picture');
+var bigPicture = document.querySelector('.big-picture');
+var socialComments = document.querySelector('.social__comments');
 
 var randomPicture = function (num) {
   for (var k = 0; k < num.length; k++) {
@@ -42,7 +48,8 @@ var random = function (min, max) {
 
 var createComments = function () {
   var comments = [];
-  for (var i = 0; i < random(1, 100); i++) {
+  var num = random(1, 100);
+  for (var i = 0; i < num; i++) {
     var comment = {
       avatar: 'img/avatar-' + random(1, 6) + '.svg',
       message: MESSAGES[random(1, 6)],
@@ -53,7 +60,7 @@ var createComments = function () {
   return comments;
 };
 
-var createDescription = function () {
+var createDataItem = function () {
   var description = {
     url: 'photos/' + randomPicture(PICTURE_NUMBERS) + '.jpg',
     likes: random(15, 200),
@@ -62,20 +69,13 @@ var createDescription = function () {
   return description;
 };
 
-var getDescriptions = function (num) {
-  var descriptions = [];
+var getData = function (num) {
+  var temp = [];
   for (var j = 0; j < num; j++) {
-    descriptions.push(createDescription());
+    temp.push(createDataItem());
   }
-  return descriptions;
+  return temp;
 };
-
-var descriptions = getDescriptions(DESCRIPTIONS_COUNT);
-
-var similarListElement = document.querySelector('.pictures');
-var similarPictureTemplate = document.querySelector('#picture')
-    .content
-    .querySelector('.picture');
 
 var renderPicture = function (description) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
@@ -87,23 +87,21 @@ var renderPicture = function (description) {
   return pictureElement;
 };
 
-var fragment = document.createDocumentFragment();
+data = getData(DATA_COUNT);
 
-for (var i = 0; i < descriptions.length; i++) {
-  fragment.appendChild(renderPicture(descriptions[i]));
+for (var i = 0; i < data.length; i++) {
+  fragment.appendChild(renderPicture(data[i]));
 }
 
 similarListElement.appendChild(fragment);
 
-var bigPicture = document.querySelector('.big-picture');
 bigPicture.classList.remove('hidden');
-bigPicture.querySelector('.big-picture__img').src = descriptions[0].url;
-bigPicture.querySelector('.likes-count').textContent = descriptions[0].likes;
-bigPicture.querySelector('.comments-count').textContent = descriptions[0].comments.length;
+bigPicture.querySelector('.big-picture__img').src = data[0].url;
+bigPicture.querySelector('.likes-count').textContent = data[0].likes;
+bigPicture.querySelector('.comments-count').textContent = data[0].comments.length;
 
-var socialComments = document.querySelector('.social__comments');
-socialComments.querySelector('.social__picture').src = descriptions[0].comments.avatar;
-socialComments.querySelector('.social__text').textContent = descriptions[0].comments.message;
+socialComments.querySelector('.social__picture').src = data[0].comments.avatar;
+socialComments.querySelector('.social__text').textContent = data[0].comments.message;
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
