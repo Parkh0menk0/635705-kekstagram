@@ -19,7 +19,6 @@ var NAMES = [
 ];
 
 var data = [];
-var fragment = document.createDocumentFragment();
 var similarListElement = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture')
     .content
@@ -62,7 +61,7 @@ var getData = function (num) {
   return temp;
 };
 
-var renderPicture = function (description) {
+var getPictureElement = function (description) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = description.url;
@@ -80,13 +79,19 @@ var showBigPicture = function (descriptions) {
   bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
 };
 
+var renderPictures = function (descriptions) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < descriptions.length; i++) {
+    fragment.appendChild(getPictureElement(descriptions[i]));
+  }
+
+  similarListElement.appendChild(fragment);
+};
+
 data = getData(DATA_COUNT);
 
-for (var i = 0; i < data.length; i++) {
-  fragment.appendChild(renderPicture(data[i]));
-}
-
-similarListElement.appendChild(fragment);
+renderPictures(data);
 
 document.querySelector('.big-picture').classList.remove('hidden');
 
