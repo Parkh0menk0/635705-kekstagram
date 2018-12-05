@@ -25,7 +25,6 @@ var similarListElement = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
-var bigPicture = document.querySelector('.big-picture');
 var socialComments = document.querySelector('.social__comments');
 
 var randomPicture = function (num) {
@@ -87,6 +86,14 @@ var renderPicture = function (description) {
   return pictureElement;
 };
 
+var showBigPicture = function (descriptions) {
+  var bigPicture = document.querySelector('.big-picture');
+
+  bigPicture.querySelector('.big-picture__img').src = descriptions.url;
+  bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
+  bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
+};
+
 data = getData(DATA_COUNT);
 
 for (var i = 0; i < data.length; i++) {
@@ -95,10 +102,9 @@ for (var i = 0; i < data.length; i++) {
 
 similarListElement.appendChild(fragment);
 
-bigPicture.classList.remove('hidden');
-bigPicture.querySelector('.big-picture__img').src = data[0].url;
-bigPicture.querySelector('.likes-count').textContent = data[0].likes;
-bigPicture.querySelector('.comments-count').textContent = data[0].comments.length;
+document.querySelector('.big-picture').classList.remove('hidden');
+
+showBigPicture(data[0]);
 
 socialComments.querySelector('.social__picture').src = data[0].comments.avatar;
 socialComments.querySelector('.social__text').textContent = data[0].comments.message;
