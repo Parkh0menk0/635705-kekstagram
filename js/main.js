@@ -1,7 +1,6 @@
 'use strict';
 
 var DATA_COUNT = 25;
-var PICTURE_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 var MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -27,19 +26,6 @@ var similarPictureTemplate = document.querySelector('#picture')
     .querySelector('.picture');
 var socialComments = document.querySelector('.social__comments');
 
-var randomPicture = function (num) {
-  for (var k = 0; k < num.length; k++) {
-    var rand = 1 - 0.5 + Math.random() * (25 - 1 + 1);
-    if (rand !== num[i]) {
-      continue;
-    } else {
-      num.splice(num.indexOf(rand), 1);
-      break;
-    }
-  }
-  return Math.round(rand);
-};
-
 var random = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
@@ -59,19 +45,19 @@ var createComments = function () {
   return comments;
 };
 
-var createDataItem = function () {
-  var description = {
-    url: 'photos/' + randomPicture(PICTURE_NUMBERS) + '.jpg',
+var createDataItem = function (index) {
+  var temp = {
+    url: 'photos/' + (index + 1) + '.jpg',
     likes: random(15, 200),
     comments: createComments()
   };
-  return description;
+  return temp;
 };
 
 var getData = function (num) {
   var temp = [];
   for (var j = 0; j < num; j++) {
-    temp.push(createDataItem());
+    temp.push(createDataItem(j));
   }
   return temp;
 };
