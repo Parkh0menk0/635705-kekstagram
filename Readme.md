@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Oleg Parkhomenko](https://up.htmlacademy.ru/javascript/16/user/635705).
-* Наставник: [Никита Пиковец](https://htmlacademy.ru/profile/id503133).
+* Наставник: [Дмитрий Рябинин](https://htmlacademy.ru/profile/haschish).
 
 ---
 
