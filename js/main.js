@@ -169,3 +169,24 @@ scaleControlBigger.addEventListener('click', function () {
   scale.value = (Number(scale.value.replace('%', '')) + 25) + '%';
   imgUploadPreview.style.transform = scaleble(scale.value);
 });
+
+// var rates = ['25%', '50%', '75%', '100%'];
+
+// var addScaleClickHandler = function (scaleControl, rate) {
+//   scale.addEventListener('click', function () {
+//     scaleControl.value = rate;
+//     imgUploadPreview.style.transform = scaleble(scaleControl.value);
+//   });
+// };
+
+// for (var i = 0; i < rates.length; i++) {
+//   addScaleClickHandler(scaleControlSmaller, rates[i]);
+// }
+
+// for (var j = 0; j < rates.length; j++) {
+//   addScaleClickHandler(scaleControlBigger, rates[i]);
+// }
+
+document.querySelector('.effect-level__pin').addEventListener('mouseup', function () {
+
+});
