@@ -131,18 +131,26 @@ var uploadFile = document.getElementById('upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
 
-uploadFile.addEventListener('change', function () {
+var openPopup = function () {
   imgUploadOverlay.classList.remove('hidden');
 
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC) {
-      imgUploadOverlay.classList.add('hidden');
+      closePopup();
     }
   });
+};
+
+var closePopup = function () {
+  imgUploadOverlay.classList.add('hidden');
+};
+
+uploadFile.addEventListener('change', function () {
+  openPopup();
 });
 
 imgUploadCancel.addEventListener('click', function () {
-  imgUploadOverlay.classList.add('hidden');
+  closePopup();
 });
 
 var scaleControlSmaller = document.querySelector('.scale__control--smaller');
