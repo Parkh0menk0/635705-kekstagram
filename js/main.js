@@ -17,6 +17,9 @@ var NAMES = [
   'Таисия',
   'Виктория'
 ];
+var SCALE_STEP = 25;
+var MAX_SCALE_VALUE = 100;
+var MIN_SCALE_VALUE = 25;
 
 var data = [];
 var similarListPictures = document.querySelector('.pictures');
@@ -150,43 +153,23 @@ var scaleble = function (scaleValue) {
   return 'scale(' + scaleValue.replace('%', '') / 100 + ')';
 };
 
-// var zoomOut = function (scaleValue) {
-//   return scaleValue <= 50 ? (Number(scaleValue.replace('%', '')) - 25) + '%' : scaleValue;
-// };
-//
-// var zoomIn = function (scaleValue) {
-//   return scaleValue <= 50 ? (Number(scaleValue.replace('%', '')) + 25) + '%' : scaleValue;
-// };
-
 scale.value = 100;
 
 scaleControlSmaller.addEventListener('click', function () {
-  scale.value = (Number(scale.value.replace('%', '')) - 25) + '%';
+  var value = Number(scale.value.replace('%', ''));
+  if (value === MIN_SCALE_VALUE) {
+    return;
+  }
+  scale.value = (value - SCALE_STEP) + '%';
   imgUploadPreview.style.transform = scaleble(scale.value);
 });
 
 scaleControlBigger.addEventListener('click', function () {
-  scale.value = (Number(scale.value.replace('%', '')) + 25) + '%';
+  var value = Number(scale.value.replace('%', ''));
+  if (value === MAX_SCALE_VALUE) {
+    return;
+  }
+  scale.value = (value + SCALE_STEP) + '%';
   imgUploadPreview.style.transform = scaleble(scale.value);
 });
 
-// var rates = ['25%', '50%', '75%', '100%'];
-
-// var addScaleClickHandler = function (scaleControl, rate) {
-//   scale.addEventListener('click', function () {
-//     scaleControl.value = rate;
-//     imgUploadPreview.style.transform = scaleble(scaleControl.value);
-//   });
-// };
-
-// for (var i = 0; i < rates.length; i++) {
-//   addScaleClickHandler(scaleControlSmaller, rates[i]);
-// }
-
-// for (var j = 0; j < rates.length; j++) {
-//   addScaleClickHandler(scaleControlBigger, rates[i]);
-// }
-
-document.querySelector('.effect-level__pin').addEventListener('mouseup', function () {
-
-});
