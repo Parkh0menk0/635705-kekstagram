@@ -20,6 +20,7 @@ var NAMES = [
 var SCALE_STEP = 25;
 var MAX_SCALE_VALUE = 100;
 var MIN_SCALE_VALUE = 25;
+var ESC = 27;
 
 var data = [];
 var similarListPictures = document.querySelector('.pictures');
@@ -132,16 +133,16 @@ var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
 
 uploadFile.addEventListener('change', function () {
   imgUploadOverlay.classList.remove('hidden');
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC) {
+      imgUploadOverlay.classList.add('hidden');
+    }
+  });
 });
 
 imgUploadCancel.addEventListener('click', function () {
   imgUploadOverlay.classList.add('hidden');
-});
-
-imgUploadCancel.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) {
-    imgUploadOverlay.classList.add('hidden');
-  }
 });
 
 var scaleControlSmaller = document.querySelector('.scale__control--smaller');
