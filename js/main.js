@@ -36,6 +36,8 @@ var scaleControlSmaller = document.querySelector('.scale__control--smaller');
 var scaleControlBigger = document.querySelector('.scale__control--bigger');
 var scale = document.querySelector('.scale__control--value');
 var imgUploadPreview = document.querySelector('.img-upload__preview img');
+var effects = document.querySelectorAll('.effects__radio');
+var effectsPreview = document.querySelectorAll('.effects__preview');
 
 var random = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -194,3 +196,13 @@ scaleControlBigger.addEventListener('click', function () {
   scale.value = (value + SCALE_STEP) + '%';
   imgUploadPreview.style.transform = scaleble(scale.value);
 });
+
+var addEffectClickHandler = function (effect, img, preview) {
+  effect.addEventListener('click', function () {
+    img.classList.add(preview.className.split(' ').pop());
+  });
+};
+
+for (var i = 0; i < effects.length; i++) {
+  addEffectClickHandler(effects[i], imgUploadPreview, effectsPreview[i]);
+}
