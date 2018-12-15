@@ -106,13 +106,17 @@ var showBigPicture = function (descriptions) {
   bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
   bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
 
-  pictureCancel.addEventListener('click', function () {
+  var closeBigPicture = function () {
     bigPicture.classList.add('hidden');
+  };
+
+  pictureCancel.addEventListener('click', function () {
+    closeBigPicture();
   });
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
-      bigPicture.classList.add('hidden');
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeBigPicture();
     }
   });
 
