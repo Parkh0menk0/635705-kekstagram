@@ -17,6 +17,10 @@ var NAMES = [
   'Таисия',
   'Виктория'
 ];
+var SCALE_STEP = 25;
+var MAX_SCALE_VALUE = 100;
+var MIN_SCALE_VALUE = 25;
+var ESC_KEYCODE = 27;
 
 var data = [];
 var similarListPictures = document.querySelector('.pictures');
@@ -25,6 +29,15 @@ var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 var commentTemplate = document.querySelector('.social__comment');
+var uploadFile = document.getElementById('upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
+var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+var scaleControlBigger = document.querySelector('.scale__control--bigger');
+var scale = document.querySelector('.scale__control--value');
+var imgUploadPreview = document.querySelector('.img-upload__preview img');
+var effects = document.querySelectorAll('.effects__radio');
+var effectsPreview = document.querySelectorAll('.effects__preview');
 
 var random = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -69,6 +82,10 @@ var getPictureElement = function (description) {
   pictureElement.querySelector('.picture__likes').textContent = description.likes;
   pictureElement.querySelector('.picture__comments').textContent = description.comments;
 
+  pictureElement.addEventListener('click', function () {
+    showBigPicture(description);
+  });
+
   return pictureElement;
 };
 
@@ -80,13 +97,31 @@ var getCommentElement = function (comment) {
   return commentElement;
 };
 
-var showBigPicture = function (descriptions) {
+var onBigPictureEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeBigPicture();
+  }
+};
+
+var closeBigPicture = function () {
   var bigPicture = document.querySelector('.big-picture');
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onBigPictureEscPress);
+};
+
+var showBigPicture = function (descriptions) {
+  var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
   bigPicture.classList.remove('hidden');
 
-  bigPicture.querySelector('.big-picture__img').src = descriptions.url;
+  bigPicture.querySelector('.big-picture__img img').src = descriptions.url;
   bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
   bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
+
+  pictureCancel.addEventListener('click', function () {
+    closeBigPicture();
+  });
+
+  document.addEventListener('keydown', onBigPictureEscPress);
 
   renderComments(descriptions.comments);
 };
@@ -118,7 +153,64 @@ var renderPictures = function (descriptions) {
 data = getData(DATA_COUNT);
 
 renderPictures(data);
-showBigPicture(data[0]);
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  imgUploadOverlay.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  imgUploadOverlay.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+uploadFile.addEventListener('change', function () {
+  openPopup();
+});
+
+imgUploadCancel.addEventListener('click', function () {
+  closePopup();
+});
+
+var scaleble = function (scaleValue) {
+  return 'scale(' + scaleValue.replace('%', '') / 100 + ')';
+};
+
+scale.value = 100;
+
+scaleControlSmaller.addEventListener('click', function () {
+  var value = Number(scale.value.replace('%', ''));
+  if (value === MIN_SCALE_VALUE) {
+    return;
+  }
+  scale.value = (value - SCALE_STEP) + '%';
+  imgUploadPreview.style.transform = scaleble(scale.value);
+});
+
+scaleControlBigger.addEventListener('click', function () {
+  var value = Number(scale.value.replace('%', ''));
+  if (value === MAX_SCALE_VALUE) {
+    return;
+  }
+  scale.value = (value + SCALE_STEP) + '%';
+  imgUploadPreview.style.transform = scaleble(scale.value);
+});
+
+var addEffectClickHandler = function (effect, img, preview) {
+  effect.addEventListener('click', function () {
+    img.classList.add(preview.className.split(' ').pop());
+  });
+};
+
+for (var i = 0; i < effects.length; i++) {
+  addEffectClickHandler(effects[i], imgUploadPreview, effectsPreview[i]);
+}
