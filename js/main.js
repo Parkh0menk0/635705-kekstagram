@@ -29,6 +29,7 @@ var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 var commentTemplate = document.querySelector('.social__comment');
+var bigPicture = document.querySelector('.big-picture');
 var uploadFile = document.getElementById('upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
@@ -104,7 +105,6 @@ var onBigPictureEscPress = function (evt) {
 };
 
 var closeBigPicture = function () {
-  var bigPicture = document.querySelector('.big-picture');
   bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onBigPictureEscPress);
 };
