@@ -97,8 +97,19 @@ var getCommentElement = function (comment) {
   return commentElement;
 };
 
-var showBigPicture = function (descriptions) {
+var onBigPictureEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeBigPicture();
+  }
+};
+
+var closeBigPicture = function () {
   var bigPicture = document.querySelector('.big-picture');
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onBigPictureEscPress);
+};
+
+var showBigPicture = function (descriptions) {
   var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
   bigPicture.classList.remove('hidden');
 
@@ -106,19 +117,11 @@ var showBigPicture = function (descriptions) {
   bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
   bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
 
-  var closeBigPicture = function () {
-    bigPicture.classList.add('hidden');
-  };
-
   pictureCancel.addEventListener('click', function () {
     closeBigPicture();
   });
 
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closeBigPicture();
-    }
-  });
+  document.addEventListener('keydown', onBigPictureEscPress);
 
   renderComments(descriptions.comments);
 };
@@ -167,6 +170,7 @@ var openPopup = function () {
 
 var closePopup = function () {
   imgUploadOverlay.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
 uploadFile.addEventListener('change', function () {
