@@ -214,3 +214,59 @@ var addEffectClickHandler = function (effect, img, preview) {
 for (var i = 0; i < effects.length; i++) {
   addEffectClickHandler(effects[i], imgUploadPreview, effectsPreview[i]);
 }
+
+var hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
+var hashtagsArr = hashtagInput.value.split(' ').join('');
+
+var isSame = function (arr) {
+  var same = false;
+  for (var i = 0; i < arr.length - 1; i++) {
+    for (var j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j].toLowerCase().localeCompare(arr[j + 1].toLowerCase()) === 0) {
+        same = true;
+      }
+    }
+  }
+  return same;
+}
+
+hashtagInput.addEventListener('invalid', function (evt) {
+  if (hashtagInput.validity.tooShort) {
+    hashtagInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+  } else if (hashtagInput.validity.tooLong) {
+    hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+  } else if (hashtagInput.validity.valueMissing) {
+    hashtagInput.setCustomValidity('Обязательное поле');
+  } else {
+    hashtagInput.setCustomValidity('');
+  }
+});
+
+hashtagInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+// if (hashtagsArr.length > 5) {
+//   hashtagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+// } else if (isSame(hashtagsArr)) {
+//   hashtagInput.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+// } else {
+//     for (var i = 0; i < hashtagsArr.length; i++) {
+//       if (hashtagsArr[i].charCodeAt(0) !== 35) {
+//         hashtagInput.setCustomValidity('Хэш-тег не начинается с символа # (решётка)');
+//       } else if (hashtagInput.validity.tooShort) {
+//         hashtagInput.setCustomValidity('');
+//       } else if (hashtagInput.validity.tooLong) {
+//         hashtagInput.setCustomValidity('');
+//       } else {
+//           hashtagInput.setCustomValidity('');
+//       }
+//     }
+// }
