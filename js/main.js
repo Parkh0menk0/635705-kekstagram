@@ -21,6 +21,9 @@ var SCALE_STEP = 25;
 var MAX_SCALE_VALUE = 100;
 var MIN_SCALE_VALUE = 25;
 var ESC_KEYCODE = 27;
+var MAX_HASHTAGS = 5;
+var MAX_LENGTH_HASHTAG = 20;
+var MAX_LENGTH_COMMENT = 140;
 
 var data = [];
 var similarListPictures = document.querySelector('.pictures');
@@ -29,9 +32,12 @@ var similarPictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 var commentTemplate = document.querySelector('.social__comment');
+var bigPicture = document.querySelector('.big-picture');
 var uploadFile = document.getElementById('upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
+var hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
+var commentInput = imgUploadOverlay.querySelector('.text__description');
 var scaleControlSmaller = document.querySelector('.scale__control--smaller');
 var scaleControlBigger = document.querySelector('.scale__control--bigger');
 var scale = document.querySelector('.scale__control--value');
@@ -104,7 +110,6 @@ var onBigPictureEscPress = function (evt) {
 };
 
 var closeBigPicture = function () {
-  var bigPicture = document.querySelector('.big-picture');
   bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onBigPictureEscPress);
 };
@@ -214,3 +219,75 @@ var addEffectClickHandler = function (effect, img, preview) {
 for (var i = 0; i < effects.length; i++) {
   addEffectClickHandler(effects[i], imgUploadPreview, effectsPreview[i]);
 }
+
+hashtagInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  var value = target.value.replace(/\s+/g, ' ').toLowerCase();
+  var hashArr = value.split(' ');
+  var hashArr2 = value.split('#').slice(1);
+  var errorMessage = '';
+
+  if (hashArr.length > MAX_HASHTAGS) {
+    /* нельзя указать больше пяти хэш-тегов; */
+    errorMessage = 'Хеш-тегов может быть не более 5-ти';
+  } else {
+    for (var i = 0; i < hashArr.length; i++) {
+      var hashtag = hashArr[i];
+      var hashtagsBefore = hashArr.slice(0, Math.max(0, i));
+      /* один и тот же хэш-тег не может быть использован дважды; */
+      if (hashtagsBefore.indexOf(hashtag) > -1) {
+        errorMessage = 'Не может быть двух одинаковых тегов';
+        break;
+      }
+      if (hashtag.length > MAX_LENGTH_HASHTAG) {
+        /* максимальная длина одного хэш-тега 20 символов, включая решётку;*/
+        errorMessage = 'Хеш-теги не могут быть больше 20-ти символов';
+        break;
+      } else if ((hashtag.length === 1) && (hashtag[0] === '#')) {
+        /* хеш-тег не может состоять только из одной решётки;*/
+        errorMessage = 'Хеш-теги не могут состоять из одной решетки';
+        break;
+      } else if ((hashtag[0] !== '#') && (hashtag.length > 0)) {
+        /* хэш-тег начинается с символа # (решётка);*/
+        errorMessage = 'Первый символ у хеш-тега должен быть решеткой';
+        break;
+      } else if ((hashArr.length !== hashArr2.length) && (hashArr[0] !== '')) {
+        /* второе условие добавлено на тот случай когда пользователь
+        сначала начал вводить теги, а потом удалил, в этом случае событие вызывается и массивы оказываются разной
+        длины, в первом оказывается пустой элемент */
+        /* хэш-теги разделяются пробелами; */
+        errorMessage = 'Разделяйте хеш-теги пробелами';
+      }
+    }
+  }
+
+  target.setCustomValidity(errorMessage);
+});
+
+hashtagInput.addEventListener("focus", function(evt) {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+hashtagInput.addEventListener("blur", function(evt) {
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
+commentInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  var errorMessage = '';
+  if (target.length > MAX_LENGTH_COMMENT) {
+    /* максимальная длина одного комментария 140 символов;*/
+    errorMessage = 'Комментарии не могут быть больше 140-ти символов';
+  }
+
+  target.setCustomValidity(errorMessage);
+});
+
+commentInput.addEventListener("focus", function(evt) {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+commentInput.addEventListener("blur", function(evt) {
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
