@@ -325,22 +325,16 @@ var depth = imgUploadEffectLevel.querySelector('.effect-level__depth');
 pin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
-  var startCoords = {
-    x: evt.clientX
-  };
+  var startCoords = evt.clientX;
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    var shift = {
-      x: startCoords.x - moveEvt.clientX
-    };
+    var shift = startCoords - moveEvt.clientX;
 
-    startCoords = {
-      x: moveEvt.clientX
-    };
+    startCoords = moveEvt.clientX;
 
-    pin.style.left = (pin.offsetLeft - shift.x) + 'px';
+    pin.style.left = (pin.offsetLeft - shift) + 'px';
     depth.style.width = pin.style.left;
 
     /* Для получения текущего используемого значения свойства, используется метод window.getComputedStyle.
