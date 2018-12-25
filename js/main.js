@@ -296,7 +296,7 @@ var setFilterValue = function (filter, value) {
       imgUploadPreview.style.filter = 'sepia(' + (value) / 100 + ')';
       break;
     case 'marvin':
-      imgUploadPreview.style.filter = 'invert(' + Math.floor((value) * 100 / 100) + '%)';
+      imgUploadPreview.style.filter = 'invert(' + value + '%)';
       break;
     case 'phobos':
       imgUploadPreview.style.filter = 'blur(' + (value) * 3 / 100 + 'px)';
