@@ -282,10 +282,10 @@ commentInput.addEventListener('blur', function () {
 var effectsElement = document.querySelector('.effects');
 
 effectsElement.addEventListener('change', function (evt) {
-  
+  applyEffect(100);
 });
 
-var setFilterValue = function (filter, value) {
+var setFilterValue = function (value) {
   var currentEffect = effectsElement.querySelector('input:checked').value;
 
   switch (currentEffect) {
@@ -314,7 +314,12 @@ var setEffectValue = function (value) {
   pin.style.left = value + '%';
   depth.style.width = value + '%';
   effectLevelValue.value = value;
-}
+};
+
+var applyEffect = function (value) {
+  setFilterValue(value);
+  setEffectValue(value);
+};
 
 var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 var effectLevelValue = imgUploadEffectLevel.querySelector('.effect-level__value');
