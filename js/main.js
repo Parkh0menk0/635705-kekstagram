@@ -331,37 +331,21 @@ pin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = evt.clientX;
+  /* Для получения текущего используемого значения свойства, используется метод window.getComputedStyle.
+  Полученное строковое значение функцией parseInt() возвращается в десятичной системе счисления в переменную
+  sliderWidth. */
+  var sliderWidth = parseInt(window.getComputedStyle(line).width, 10); // или var sliderWidth = line.offsetWidth;
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    var shift = startCoords - moveEvt.clientX;
-
+    var shift = moveEvt.clientX - startCoords;
     startCoords = moveEvt.clientX;
 
-    depth.style.width = pin.style.left;
-
-    /* Для получения текущего используемого значения свойства, используется метод window.getComputedStyle.
-    Полученное строковое значение функцией parseInt() возвращается в десятичной системе счисления в переменную
-    sliderWidth. */
-    var sliderWidth = parseInt(window.getComputedStyle(line).width, 10);
-
     var scaleValue = (pin.offsetLeft - shift) / sliderWidth * 100;
+    scaleValue = Math.max(0, Math.min(100, scaleValue));
 
-    if (scaleValue <= 0) {
-      pin.style.left = 0 + '%';
-      effectLevelValue.setAttribute('value', '0');
-      scaleValue = 0;
-    } else if (scaleValue >= 100) {
-      pin.style.left = 100 + '%';
-      effectLevelValue.setAttribute('value', '100');
-      scaleValue = 100;
-    } else {
-      pin.style.left = (scaleValue) + '%';
-      effectLevelValue.setAttribute('value', Math.round(scaleValue));
-    }
-
-    setFilterValue(currentEffect, scaleValue);
+    applyEffect(scaleValue);
   };
 
   var onMouseUp = function (upEvt) {
