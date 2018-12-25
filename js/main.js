@@ -281,7 +281,7 @@ commentInput.addEventListener('blur', function () {
 
 var effectsElement = document.querySelector('.effects');
 
-effectsElement.addEventListener('change', function (evt) {
+effectsElement.addEventListener('change', function () {
   applyEffect(100);
 });
 
