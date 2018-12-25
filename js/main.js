@@ -289,7 +289,11 @@ effectsElement.addEventListener('change', function () {
 var setFilterValue = function (value) {
   var currentEffect = effectsElement.querySelector('input:checked').value;
 
-  currentEffect === 'none' ? imgUploadEffectLevel.classList.add('hidden') : imgUploadEffectLevel.classList.remove('hidden');
+  if (currentEffect === 'none') {
+    imgUploadEffectLevel.classList.add('hidden');
+  } else {
+    imgUploadEffectLevel.classList.remove('hidden');
+  }
 
   switch (currentEffect) {
     case 'chrome':
