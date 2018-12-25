@@ -279,11 +279,11 @@ commentInput.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 });
 
-var effectsList = document.querySelector('.effects__list');
+var effectsElement = document.querySelector('.effects');
 
 var currentEffect = '';
 
-effectsList.addEventListener('click', function (evt) {
+effectsElement.addEventListener('change', function (evt) {
   var effect = evt.target;
 
   var effectName = effect.value;
@@ -334,7 +334,6 @@ pin.addEventListener('mousedown', function (evt) {
 
     startCoords = moveEvt.clientX;
 
-    pin.style.left = (pin.offsetLeft - shift) + 'px';
     depth.style.width = pin.style.left;
 
     /* Для получения текущего используемого значения свойства, используется метод window.getComputedStyle.
