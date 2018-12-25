@@ -169,6 +169,7 @@ var onPopupEscPress = function (evt) {
 var openPopup = function () {
   imgUploadOverlay.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
+  applyEffect(100);
 };
 
 var closePopup = function () {
