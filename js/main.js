@@ -281,20 +281,14 @@ commentInput.addEventListener('blur', function () {
 
 var effectsElement = document.querySelector('.effects');
 
-var currentEffect = '';
-
 effectsElement.addEventListener('change', function (evt) {
-  var effect = evt.target;
-
-  var effectName = effect.value;
-  imgUploadPreview.classList.remove('effects__preview--' + currentEffect);
-  imgUploadPreview.classList.add('effects__preview--' + effectName);
-
-  currentEffect = effectName;
+  
 });
 
 var setFilterValue = function (filter, value) {
-  switch (filter) {
+  var currentEffect = effectsElement.querySelector('input:checked').value;
+
+  switch (currentEffect) {
     case 'chrome':
       imgUploadPreview.style.filter = 'grayscale(' + (value) / 100 + ')';
       break;
