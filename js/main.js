@@ -289,6 +289,8 @@ effectsElement.addEventListener('change', function () {
 var setFilterValue = function (value) {
   var currentEffect = effectsElement.querySelector('input:checked').value;
 
+  currentEffect === 'none' ? imgUploadEffectLevel.classList.add('hidden') : imgUploadEffectLevel.classList.remove('hidden');
+
   switch (currentEffect) {
     case 'chrome':
       imgUploadPreview.style.filter = 'grayscale(' + (value) / 100 + ')';
@@ -340,7 +342,7 @@ pin.addEventListener('mousedown', function (evt) {
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    var shift = moveEvt.clientX - startCoords;
+    var shift = startCoords - moveEvt.clientX;
     startCoords = moveEvt.clientX;
 
     var scaleValue = (pin.offsetLeft - shift) / sliderWidth * 100;
