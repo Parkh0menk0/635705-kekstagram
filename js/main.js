@@ -310,6 +310,12 @@ var setFilterValue = function (filter, value) {
   }
 };
 
+var setEffectValue = function (value) {
+  pin.style.left = value + '%';
+  depth.style.width = value + '%';
+  effectLevelValue.value = value;
+}
+
 var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 var effectLevelValue = imgUploadEffectLevel.querySelector('.effect-level__value');
 var line = imgUploadEffectLevel.querySelector('.effect-level__line');
