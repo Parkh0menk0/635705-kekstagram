@@ -60,5 +60,5 @@
 
   window.preview = {
     show: showBigPicture
-  }
+  };
 })();

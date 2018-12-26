@@ -8,8 +8,8 @@
     return Math.round(rand);
   };
 
-  window.utils = {
-    random = random,
-    ESC_KEYCODE = ESC_KEYCODE
-  }
+  window.util = {
+    random: random,
+    ESC_KEYCODE: ESC_KEYCODE
+  };
 })();

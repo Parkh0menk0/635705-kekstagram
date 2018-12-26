@@ -52,5 +52,5 @@
 
   window.data = {
     generate: getData
-  }
+  };
 })();
