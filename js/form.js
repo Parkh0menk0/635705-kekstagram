@@ -26,7 +26,7 @@
   var depth = imgUploadEffectLevel.querySelector('.effect-level__depth');
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
       closePopup();
     }
   };

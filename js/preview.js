@@ -6,7 +6,7 @@
   var commentTemplate = document.querySelector('.social__comment');
 
   var onBigPictureEscPress = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
       closeBigPicture();
     }
   };
