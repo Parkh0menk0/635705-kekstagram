@@ -17,7 +17,16 @@
   };
 
   var load = function (onLoad, onError) {
-    Добавил функцию load.js, которая загружает данные по сети и вызывает функцию onSuccess, если данные загружены успешно, и onError, если что-то пошло не так
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.open('GET', URL_LOAD);
+
+    xhr.addEventListener('load', function () {
+      onLoad(xhr.response);
+    });
+
+    xhr.send();
   };
 
   window.backend = {
