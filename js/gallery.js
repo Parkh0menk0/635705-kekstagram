@@ -32,6 +32,7 @@
     similarListPictures.appendChild(fragment);
   };
 
-  var data = window.data.generate(DATA_COUNT);
+  // var data = window.data.generate(DATA_COUNT);
+  var data = window.backend.load();
   renderPictures(data);
 })();
