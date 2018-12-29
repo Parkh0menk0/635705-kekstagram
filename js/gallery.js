@@ -30,8 +30,8 @@
     similarListPictures.appendChild(fragment);
   };
 
-  var onLoad = function (data) {
-    renderPictures(data);
+  var onLoad = function (descriptions) {
+    renderPictures(descriptions);
   };
 
   var onError = function (errorDiscription) {

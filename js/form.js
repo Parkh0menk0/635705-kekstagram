@@ -224,10 +224,10 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  form.addEventListener('submit', function (evt) {
-    window.backend(new FormData(form), function (response) {
-      imgUploadOverlay.classList.add('hidden');
-    });
-    evt.preventDefault();
-  });
+  // form.addEventListener('submit', function (evt) {
+  //   window.backend.upload(new FormData(form), function (response) {
+  //     imgUploadOverlay.classList.add('hidden');
+  //   });
+  //   evt.preventDefault();
+  // });
 })();
