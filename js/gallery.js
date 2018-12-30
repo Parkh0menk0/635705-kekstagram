@@ -38,5 +38,5 @@
     return errorDiscription;
   };
 
-  var data = window.backend.load(onLoad, onError);
+  window.backend.load(onLoad, onError);
 })();
