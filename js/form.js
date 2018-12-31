@@ -231,6 +231,5 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(form), onSucces);
-    evt.preventDefault();
   });
 })();
