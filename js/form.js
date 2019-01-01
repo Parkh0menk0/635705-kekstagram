@@ -225,11 +225,20 @@
   });
 
   var onSucces = function () {
-    imgUploadOverlay.classList.add('hidden');
+    form.reset();
+    closePopup();
+    window.error.openSuccess();
+  };
+
+  var onError = function () {
+    form.reset();
+    closePopup();
+    window.error.openError();
   };
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(form), onSucces);
+    window.backend.upload(new FormData(form), onSucces, onError);
   });
+
 })();
