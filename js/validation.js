@@ -37,13 +37,14 @@
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
-  var openError = function () {
+  var openError = function (errorMessage) {
     var message = templateError.cloneNode(true);
+    message.querySelector('.error__title').textContent = errorMessage;
     document.querySelector('main').appendChild(message);
-    var button = message.querySelectorAll('.error__button');
+    var buttons = message.querySelectorAll('.error__button');
 
-    for (var i = 0; i < button.length; i++) {
-      button[i].addEventListener('click', function () {
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
         errorClose();
       });
     }
