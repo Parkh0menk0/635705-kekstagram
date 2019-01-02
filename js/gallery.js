@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var DATA_COUNT = 25;
-
   var similarListPictures = document.querySelector('.pictures');
   var similarPictureTemplate = document.querySelector('#picture')
     .content
@@ -32,6 +30,9 @@
     similarListPictures.appendChild(fragment);
   };
 
-  var data = window.data.generate(DATA_COUNT);
-  renderPictures(data);
+  var onError = function (errorMessage) {
+    window.validation.openError(errorMessage);
+  };
+
+  window.backend.load(renderPictures, onError);
 })();
