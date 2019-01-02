@@ -31,10 +31,7 @@
   };
 
   var onError = function (errorMessage) {
-    var error = document.createElement('div');
-    error.style.cssText = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; position = absolute; left = 0; right = 0; font-size = 30px;';
-    error.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', error);
+    window.validation.openError(errorMessage);
   };
 
   window.backend.load(renderPictures, onError);

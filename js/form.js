@@ -227,13 +227,13 @@
   var onSucces = function () {
     form.reset();
     closePopup();
-    window.error.openSuccess();
+    window.validation.openSuccess();
   };
 
   var onError = function () {
     form.reset();
     closePopup();
-    window.error.openError();
+    window.validation.openError();
   };
 
   form.addEventListener('submit', function (evt) {

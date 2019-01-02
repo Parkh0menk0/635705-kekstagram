@@ -50,7 +50,7 @@
     document.addEventListener('keydown', onErrorEscPress);
   };
 
-  window.error = {
+  window.validation = {
     openSuccess: openSuccess,
     openError: openError
   };
