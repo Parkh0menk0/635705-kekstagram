@@ -36,3 +36,6 @@
 
   window.backend.load(renderPictures, onError);
 })();
+
+var imgFilters = document.querySelector('.img-filters');
+imgFilters.classList.remove('img-filters--inactive');
