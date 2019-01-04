@@ -224,7 +224,7 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var onSucces = function () {
+  var onSuccess = function () {
     form.reset();
     closePopup();
     window.validation.openSuccess();
@@ -238,7 +238,10 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(form), onSucces, onError);
+    window.backend.upload(new FormData(form), onSuccess, onError);
   });
 
+  window.form = {
+    onSuccess: onSuccess
+  }
 })();
