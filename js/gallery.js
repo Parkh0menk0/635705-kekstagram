@@ -5,7 +5,71 @@
   var similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
   var filters = document.querySelector('.img-filters');
-  var filterType = document.querySelectorAll('.img-filters__button');
+  var filterPopular = document.querySelector('#filter-popular');
+  var filterNew = document.querySelector('#filter-new');
+  var filterDiscussed = document.querySelector('#filter-discussed');
+
+  /**
+   * Удаление картинок из DOM.
+   */
+  var cleanPictures = function () {
+    var deletingPictures = similarListPictures.querySelectorAll('.picture');
+    deletingPictures.forEach(function (item) {
+      similarListPictures.removeChild(item);
+    });
+  };
+
+  /**
+   * Функция сортировки фотографий в порядке убывания количества комментариев.
+   */
+  var showMostDiscussed = function () {
+    var picturesSorting = originPictures.slice();
+    picturesSorting.sort(function (first, second) {
+      if (first.comments < second.comments) {
+        return 1;
+      } else if (first.comments > second.comments) {
+        return -1;
+      }
+      return 0;
+    });
+    renderPictures(picturesSorting);
+  }
+
+  /**
+   * Функция для 10 случайных, не повторяющихся фотографий.
+   */
+  var unique = function () {
+    var obj = {};
+    for (var i = 0; i < originPictures.length; i++) {
+      var str = originPictures[i];
+      obj[str] = true; // запомнить строку в виде свойства объекта
+    }
+    var uniqueArray = Object.keys();
+    uniqueArray.length = 10;
+    renderPictures(uniqueArray);
+  };
+  
+  /**
+   * Фокус на кнопках перебора.
+   *
+   * @param  pressedButton - выбранный фильтр;
+   * @param  notPressedButton - не выбранный фильтр;
+   * @param  notPressedButtonToo - не выбранный фильтр;
+   * @param {String} className - имя класса.
+   */
+  var backlighting = function (pressedButton, notPressedButton, notPressedButtonToo, className) {
+    if (!pressedButton.classList.contains(className)) {
+      pressedButton.classList.add(className);
+    }
+
+    if (notPressedButton.classList.contains(className)) {
+      notPressedButton.classList.remove(className);
+    }
+
+    if (notPressedButtonToo.classList.contains(className)) {
+      notPressedButtonToo.classList.remove(className);
+    }
+  }
 
   var getPictureElement = function (description) {
     var pictureElement = similarPictureTemplate.cloneNode(true);
@@ -27,7 +91,6 @@
     for (var i = 0; i < descriptions.length; i++) {
       fragment.appendChild(getPictureElement(descriptions[i]));
     }
-
     similarListPictures.appendChild(fragment);
   };
 
@@ -35,55 +98,22 @@
     window.validation.openError(errorMessage);
   };
 
-  window.backend.load(renderPictures, onError);
-
-  var picturesArr = []; // инициализация для линта
-  // var picturesArr = renderPictures( ?? );
+  var originPictures = window.backend.load(onSucces, onError);
 
   filters.classList.remove('img-filters--inactive');
 
-  filterType[0].addEventListener('click', function () {
-    var picture = similarListPictures.querySelectorAll('.picture');
-    for (var i = 0; i < picture.length; i++) {
-      similarListPictures.removeChild(picture[i]);
-    }
-    renderPictures(picturesArr);
+  filterPopular.addEventListener('click', function () {
+    backlighting(filterPopular, filterNew, filterDiscussed, 'img-filters__button--active');
+    renderPictures(originPictures);
   });
 
-  var unique = function (arr) {
-    var obj = {};
-    for (var i = 0; i < arr.length; i++) {
-      var str = arr[i];
-      obj[str] = true; // запомнить строку в виде свойства объекта
-    }
-    var uniqueArray = Object.keys();
-    uniqueArray.length = 10;
-    return uniqueArray;
-  };
-
-  filterType[1].addEventListener('click', function () {
-    var picture = similarListPictures.querySelectorAll('.picture');
-    for (var i = 0; i < picture.length; i++) {
-      similarListPictures.removeChild(picture[i]);
-    }
-    renderPictures(unique(picturesArr));
+  filterNew.addEventListener('click', function () {
+    backlighting(filterNew, filterPopular, filterDiscussed, 'img-filters__button--active');
+    unique();
   });
 
-  filterType[2].addEventListener('click', function () {
-    var picture = similarListPictures.querySelectorAll('.picture');
-    for (var i = 0; i < picture.length; i++) {
-      similarListPictures.removeChild(picture[i]);
-    }
-    var picturesCopyArr = picturesArr.slice().sort(function (first, second) {
-      var result = 0;
-      if (first.comments.localeCompare(second.comments) === 1) {
-        result = 1;
-      }
-      if (first.comments.localeCompare(second.comments) === -1) {
-        result = -1;
-      }
-      return result;
-    });
-    renderPictures(picturesCopyArr);
+  filterDiscussed.addEventListener('click', function () {
+    backlighting(filterDiscussed, filterPopular, filterNew, 'img-filters__button--active');
+    showMostDiscussed();
   });
 })();
