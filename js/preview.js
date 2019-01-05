@@ -7,6 +7,7 @@
   var bigPicture = document.querySelector('.big-picture');
   var listComments = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
+  var socialCommentCount = document.querySelector('.social__comment-count');
   var socialCommentsLoader = bigPicture.querySelector('.comments-loader');
 
   /**
@@ -61,6 +62,13 @@
     listComments.appendChild(fragment);
   };
 
+  var onCommentsLoaderElementClick = function () {
+    socialCommentCount.classList.add('hidden');
+    socialCommentsLoader.classList.add('hidden');
+    listComments.appendChild(renderComments(descriptions.comments));
+    socialCommentsLoader.removeEventListener('click', onCommentsLoaderElementClick);
+  };
+
   /**
    * Функция для заполнения и показа big-picture.
    * @function
@@ -74,6 +82,8 @@
     bigPicture.querySelector('.big-picture__img img').src = descriptions.url;
     bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
     bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
+    // очистка комментариев
+    listComments.innerHTML = '';
 
     pictureCancel.addEventListener('click', function () {
       closeBigPicture();
@@ -81,11 +91,20 @@
 
     document.addEventListener('keydown', onBigPictureEscPress);
 
-    renderComments(descriptions.comments);
-  };
+    var copyCommentsArray = descriptions.comments.slice();
 
-  document.querySelector('.social__comment-count').classList.add('visually-hidden');
-  document.querySelector('.comments-loader').classList.add('visually-hidden');
+    if (descriptions.comments.length > COMMENTS_LIMIT) {
+      copyCommentsArray.splice(COMMENTS_LIMIT);
+      listComments.appendChild(renderComments(copyCommentsArray));
+      socialCommentCount.classList.remove('hidden');
+      socialCommentsLoader.classList.remove('hidden');
+      socialCommentsLoader.addEventListener('click', onCommentsLoaderElementClick);
+    } else {
+      listComments.appendChild(renderComments(descriptions.comments));
+      socialCommentCount.classList.add('hidden');
+      socialCommentsLoader.classList.add('hidden');
+    }
+  };
 
   window.preview = {
     show: showBigPicture
