@@ -9,17 +9,31 @@
   var commentTemplate = document.querySelector('.social__comment');
   var socialCommentsLoader = bigPicture.querySelector('.comments-loader');
 
+  /**
+   * Функция создает обработчик событий для клавиши escape.
+   * @function
+   * @param {object} evt
+   */
   var onBigPictureEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       closeBigPicture();
     }
   };
 
+  /**
+   * Функция закрытия окна изображения.
+   * @function
+   */
   var closeBigPicture = function () {
     bigPicture.classList.add('hidden');
     document.removeEventListener('keydown', onBigPictureEscPress);
   };
 
+  /**
+   * Функция создает комментарий.
+   * @function
+   * @param {object} comment
+   */
   var getCommentElement = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);
     commentElement.querySelector('.social__picture').src = comment.avatar;
@@ -28,6 +42,11 @@
     return commentElement;
   };
 
+  /**
+   * Функция создает комментарии
+   * @function
+   * @param {array} comments
+   */
   var renderComments = function (comments) {
     var fragment = document.createDocumentFragment();
 
@@ -42,6 +61,11 @@
     listComments.appendChild(fragment);
   };
 
+  /**
+   * Функция для заполнения и показа big-picture.
+   * @function
+   * @param {array} descriptions массив из которого берется информация.
+   */
   var showBigPicture = function (descriptions) {
     var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
@@ -58,12 +82,6 @@
     document.addEventListener('keydown', onBigPictureEscPress);
 
     renderComments(descriptions.comments);
-
-    if (descriptions.comments.length <= COMMENTS_LIMIT) {
-      socialCommentsLoader.classList.add('visually-hidden');
-    } else {
-      socialCommentsLoader.classList.remove('visually-hidden');
-    }
   };
 
   document.querySelector('.social__comment-count').classList.add('visually-hidden');
