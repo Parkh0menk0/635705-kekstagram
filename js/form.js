@@ -32,12 +32,20 @@
     }
   };
 
+  /**
+   * Функция открытия окна формы редактирования изображения.
+   * @function
+   */
   var openPopup = function () {
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     applyEffect(DEFAULT_EFFECT_VALUE);
   };
 
+  /**
+   * Функция закрытия окна формы редактирования изображения.
+   * @function
+   */
   var closePopup = function () {
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
@@ -51,6 +59,12 @@
     closePopup();
   });
 
+  /**
+   * Функция масштабирования изображения.
+   * @function
+   * @param {number} scaleValue число;
+   * @returns {String} строка пригодная для вставки в стили DOM-элемента.
+   */
   var scaleble = function (scaleValue) {
     return 'scale(' + scaleValue.replace('%', '') / 100 + ')';
   };
@@ -150,6 +164,11 @@
     applyEffect(DEFAULT_EFFECT_VALUE);
   });
 
+  /**
+   * Функция задающая соответствующий фильтр загруженному изображению.
+   * @function
+   * @param {number} value заданное значение для фильтра;
+   */
   var setFilterValue = function (value) {
     var currentEffect = effectsElement.querySelector('input:checked').value;
 
@@ -181,12 +200,22 @@
     }
   };
 
+  /**
+   * Функция задающая соответствующее значение DOM-элементам фильтра загруженного изображения.
+   * @function
+   * @param {number} value заданное значение для фильтра;
+   */
   var setEffectValue = function (value) {
     pin.style.left = value + '%';
     depth.style.width = value + '%';
     effectLevelValue.value = value;
   };
 
+  /**
+   * Функция применяющая фильтр к загруженному изображению.
+   * @function
+   * @param {number} value заданное значение для фильтра;
+   */
   var applyEffect = function (value) {
     setFilterValue(value);
     setEffectValue(value);

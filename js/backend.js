@@ -4,6 +4,13 @@
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
 
+  /**
+   * Функция создания объекта XMLHttpReques.
+   * @function
+   * @param {requestCallback} onLoad функция обратного вызова, которая срабатывает при успешном выполнении запроса;
+   * @param {requestCallback} onError функция обратного вызова, которая срабатывает при неуспешном выполнении запроса;
+   * @returns {Object} объект XMLHttpRequest.
+   */
   var createXHR = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -26,12 +33,25 @@
     return xhr;
   };
 
+  /**
+   * Функция для отправки данных на сервер.
+   * @function
+   * @param {object} data - объект FormData, который содержит данные формы, которые будут отправлены на сервер;
+   * @param {requestCallback} onLoad функция обратного вызова, которая срабатывает при успешном выполнении запроса;
+   * @param {requestCallback} onError функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   */
   var upload = function (data, onLoad, onError) {
     var xhr = createXHR(onLoad, onError);
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
+  /**
+   * Функция получения данных с сервера.
+   * @function
+   * @param {requestCallback} onLoad функция обратного вызова, которая срабатывает при успешном выполнении запроса;
+   * @param {requestCallback} onError функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   */
   var load = function (onLoad, onError) {
     var xhr = createXHR(onLoad, onError);
     xhr.open('GET', URL_LOAD);
