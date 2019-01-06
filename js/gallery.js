@@ -34,12 +34,18 @@
    * @function
    */
   var showRandom = function () {
-    var picturesSorting = pictures.slice();
-    picturesSorting.sort(function (a, b) {
-      return (b.url < a.url) - (a.url < b.url);
-    });
-    picturesSorting.length = 10;
-    renderPictures(picturesSorting);
+    var arr = [];
+    var data = pictures.slice();
+    var index;
+    var obj;
+    
+    for (var i = 0; i < 10; i++) {
+      index = window.util.random(0, data.length - 1);
+      obj = data.splice(index, 1)[0];
+      arr.push(obj);
+    }
+
+    renderPictures(arr);
   };
 
   /**
@@ -79,7 +85,7 @@
   };
 
   /**
-   * Функция генерирующая картинку.
+   * Функция формирующая картинку.
    * @function
    * @param {object} description - объект, который содержит данные, которые будут добавлены DOM-элементу с классом picture;
    */

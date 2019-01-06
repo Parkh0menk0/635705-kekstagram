@@ -1,14 +1,16 @@
 'use strict';
 
 (function () {
-  var COMMENTS_START_POSITION = 0;
   var COMMENTS_LIMIT = 5;
 
   var bigPicture = document.querySelector('.big-picture');
   var listComments = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
   var socialCommentCount = document.querySelector('.social__comment-count');
-  var socialCommentsLoader = bigPicture.querySelector('.comments-loader');
+  var commentsLoader = bigPicture.querySelector('.comments-loader');
+
+  var firstCommentIndex = 0;
+  var lastCommentIndex = firstCommentIndex + COMMENTS_LIMIT;
 
   /**
    * Функция создает обработчик событий для клавиши escape.
@@ -31,9 +33,9 @@
   };
 
   /**
-   * Функция создает комментарий.
+   * Функция формирующая комментарий.
    * @function
-   * @param {object} comment
+   * @param {object} comment объект, который содержит данные, которые будут добавлены DOM-элементам;
    */
   var getCommentElement = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);
@@ -44,19 +46,29 @@
   };
 
   /**
-   * Функция создает комментарии
+   * Функция генерирующая картинки.
    * @function
-   * @param {array} comments
+   * @param {array} comments - массив объектов, который содержит данные,
+   * которые будут добавлены в конец DOM-элемента с классом social__comments;
    */
   var renderComments = function (comments) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < comments.length; i++) {
-      fragment.appendChild(getCommentElement(comments[i]));
+    if (lastCommentIndex >= comments.length) {
+      lastCommentIndex = comments.length;
+      commentsLoader.classList.add('hidden');
     }
 
+    socialCommentCount.firstChild.textContent = lastCommentIndex + ' из ';
+
+    firstCommentIndex = lastCommentIndex;
+    // удаление комментариев
     while (listComments.firstChild) {
       listComments.removeChild(listComments.firstChild);
+    }
+
+    for (var i = 0; i < comments.length; i++) {
+      fragment.appendChild(getCommentElement(comments[i]));
     }
 
     listComments.appendChild(fragment);
@@ -64,9 +76,9 @@
 
   var onCommentsLoaderElementClick = function () {
     socialCommentCount.classList.add('hidden');
-    socialCommentsLoader.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
     listComments.appendChild(renderComments(descriptions.comments));
-    socialCommentsLoader.removeEventListener('click', onCommentsLoaderElementClick);
+    commentsLoader.removeEventListener('click', onCommentsLoaderElementClick);
   };
 
   /**
@@ -93,16 +105,16 @@
 
     var copyCommentsArray = descriptions.comments.slice();
 
-    if (descriptions.comments.length > COMMENTS_LIMIT) {
+    if (copyCommentsArray.length > COMMENTS_LIMIT) {
       copyCommentsArray.splice(COMMENTS_LIMIT);
       listComments.appendChild(renderComments(copyCommentsArray));
       socialCommentCount.classList.remove('hidden');
-      socialCommentsLoader.classList.remove('hidden');
-      socialCommentsLoader.addEventListener('click', onCommentsLoaderElementClick);
+      commentsLoader.classList.remove('hidden');
+      commentsLoader.addEventListener('click', onCommentsLoaderElementClick);
     } else {
-      listComments.appendChild(renderComments(descriptions.comments));
+      listComments.appendChild(renderComments(copyCommentsArray));
       socialCommentCount.classList.add('hidden');
-      socialCommentsLoader.classList.add('hidden');
+      commentsLoader.classList.add('hidden');
     }
   };
 
