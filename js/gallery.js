@@ -7,14 +7,12 @@
   var similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
   var filters = document.querySelector('.img-filters');
-  var filterPopular = document.querySelector('#filter-popular');
-  var filterNew = document.querySelector('#filter-new');
-  var filterDiscussed = document.querySelector('#filter-discussed');
-  
+
   var pictures = [];
 
   /**
    * Удаление картинок из DOM.
+   * @function
    */
   var cleanPictures = function () {
     var deletingPictures = similarListPictures.querySelectorAll('.picture');
@@ -24,10 +22,32 @@
   };
 
   /**
+   * Функция отрисовки фотографии в изначальном порядке.
+   * @function
+   */
+  var showOriginal = function () {
+    renderPictures(pictures);
+  }
+
+  /**
+   * Функция для 10 случайных, не повторяющихся фотографий.
+   * @function
+   */
+  var showRandom = function () {
+    var picturesSorting = pictures.slice();
+    picturesSorting.sort(function (a, b) {
+      return (b.url < a.url) - (a.url < b.url);
+    });
+    picturesSorting.length = 10;
+    renderPictures(picturesSorting);
+  };
+
+  /**
    * Функция сортировки фотографий в порядке убывания количества комментариев.
+   * @function
    */
   var showMostDiscussed = function () {
-    var picturesSorting = originPictures.slice();
+    var picturesSorting = pictures.slice();
     picturesSorting.sort(function (first, second) {
       if (first.comments < second.comments) {
         return 1;
@@ -40,25 +60,11 @@
   }
 
   /**
-   * Функция для 10 случайных, не повторяющихся фотографий.
-   */
-  var unique = function () {
-    var obj = {};
-    for (var i = 0; i < originPictures.length; i++) {
-      var str = originPictures[i];
-      obj[str] = true; // запомнить строку в виде свойства объекта
-    }
-    var uniqueArray = Object.keys();
-    uniqueArray.length = 10;
-    renderPictures(uniqueArray);
-  };
-  
-  /**
    * Фокус на кнопках перебора.
-   *
+   * @function
    * @param {String} value - ID элемента.
    */
-  var applyFilter = function(value) {
+  var applyFilter = function (value) {
     switch (value) {
       case 'filter-popular':
         showOriginal();
@@ -72,6 +78,11 @@
     }
   };
 
+  /**
+   * Функция генерирующая картинку.
+   * @function
+   * @param {object} description - объект, который содержит данные, которые будут добавлены DOM-элементу с классом picture;
+   */
   var getPictureElement = function (description) {
     var pictureElement = similarPictureTemplate.cloneNode(true);
 
@@ -86,30 +97,47 @@
     return pictureElement;
   };
 
+  /**
+   * Функция генерирующая картинки.
+   * @function
+   * @param {array} descriptions - массив объектов, который содержит данные,
+   * которые будут добавлены в конец DOM-элемента с классом pictures;
+   */
   var renderPictures = function (descriptions) {
     var fragment = document.createDocumentFragment();
-    
+
     descriptions.forEach(function (item) {
       fragment.appendChild(getPictureElement(item));
     });
-    
+
+    cleanPictures();
     similarListPictures.appendChild(fragment);
   };
-  
-  var onSuccess = function(data) {
+
+  /**
+   * Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
+   * @function
+   * @param {array} data массив объектов, который содержит данные о картинках
+   */
+  var onSuccess = function (data) {
     pictures = data;
     renderPictures(pictures);
   }
 
+  /**
+   * Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   * @function
+   * @param {String} errorMessage сообщение об ошибке.
+   */
   var onError = function (errorMessage) {
     window.validation.openError(errorMessage);
   };
 
-  var originPictures = window.backend.load(onSuccess, onError);
+  window.backend.load(onSuccess, onError);
 
   filters.classList.remove('img-filters--inactive');
 
-  filters.addEventListener('click', function(evt) {
+  filters.addEventListener('click', function (evt) {
     if (evt.target.type !== 'button') {
       return;
     }
