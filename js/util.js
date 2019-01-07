@@ -3,7 +3,6 @@
 (function () {
   var ESC_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500; // ms
-  var lastTimeout;
 
   /**
    * Функция генерирующая случайное число от min до max.
@@ -17,11 +16,24 @@
     return Math.round(rand);
   };
 
+  /**
+   * Функция действие которой откладывается на попозже, в случае если это действие еще не закончилось,
+   * чтобы избежать лишних миганий интерфейса или уменьшить нагрузку на сервер.
+   * @function
+   * @param {requestCallback} cb функция.
+   */
   var debounce = function (cb) {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
   };
 
   window.util = {
