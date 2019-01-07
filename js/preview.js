@@ -9,8 +9,8 @@
   var socialCommentCount = document.querySelector('.social__comment-count');
   var commentsLoader = bigPicture.querySelector('.comments-loader');
 
-  var firstCommentIndex = 0;
-  var lastCommentIndex = firstCommentIndex + COMMENTS_LIMIT;
+  var picture;
+  var startIndexComment;
 
   /**
    * Функция создает обработчик событий для клавиши escape.
@@ -54,31 +54,11 @@
   var renderComments = function (comments) {
     var fragment = document.createDocumentFragment();
 
-    if (lastCommentIndex >= comments.length) {
-      lastCommentIndex = comments.length;
-      commentsLoader.classList.add('hidden');
-    }
-
-    socialCommentCount.firstChild.textContent = lastCommentIndex + ' из ';
-
-    firstCommentIndex = lastCommentIndex;
-    // удаление комментариев
-    while (listComments.firstChild) {
-      listComments.removeChild(listComments.firstChild);
-    }
-
     for (var i = 0; i < comments.length; i++) {
       fragment.appendChild(getCommentElement(comments[i]));
     }
 
     listComments.appendChild(fragment);
-  };
-
-  var onCommentsLoaderElementClick = function () {
-    socialCommentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-    listComments.appendChild(renderComments(descriptions.comments));
-    commentsLoader.removeEventListener('click', onCommentsLoaderElementClick);
   };
 
   /**
@@ -87,6 +67,8 @@
    * @param {array} descriptions массив из которого берется информация.
    */
   var showBigPicture = function (descriptions) {
+    picture = descriptions;
+    startIndexComment = 0;
     var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
     bigPicture.classList.remove('hidden');
@@ -94,8 +76,8 @@
     bigPicture.querySelector('.big-picture__img img').src = descriptions.url;
     bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
     bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
-    // очистка комментариев
-    listComments.innerHTML = '';
+    
+    cleanComments();
 
     pictureCancel.addEventListener('click', function () {
       closeBigPicture();
@@ -103,20 +85,45 @@
 
     document.addEventListener('keydown', onBigPictureEscPress);
 
-    var copyCommentsArray = descriptions.comments.slice();
+    showNextComments();
+  };
 
-    if (copyCommentsArray.length > COMMENTS_LIMIT) {
-      copyCommentsArray.splice(COMMENTS_LIMIT);
-      listComments.appendChild(renderComments(copyCommentsArray));
-      socialCommentCount.classList.remove('hidden');
-      commentsLoader.classList.remove('hidden');
-      commentsLoader.addEventListener('click', onCommentsLoaderElementClick);
-    } else {
-      listComments.appendChild(renderComments(copyCommentsArray));
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
+  /**
+   * Функция, очищающая список комментариев.
+   * @function
+   */
+  var cleanComments = function () {
+    listComments.innerHTML = '';
+  };
+
+  /**
+   * Функция, отображающая список комментариев не полностью, а по пять элементов для фотографии в полноэкранном режиме.
+   * @function
+   */
+  var showNextComments = function () {
+    var renderingComments = picture.comments.slice(startIndexComment, startIndexComment + COMMENTS_LIMIT);
+    renderComments(renderingComments);
+    startIndexComment += COMMENTS_LIMIT;
+    
+    var allComments = picture.comments.length;
+    var showedComments = listComments.childNodes.length;
+    // показывается актуальное количество отрисованных комментариев и полное количество комментариев
+    socialCommentCount.innerHTML = showedComments + ' из <span class="comments-count">' + allComments + '</span> комментариев</div>';
+
+    if (picture.comments.length <= (startIndexComment)) {
+      commentsLoader.classList.add('visually-hidden');
     }
   };
+
+  /**
+   * Функция-обработчик для события нажатия на кнопку "Загрузить еще".
+   * @function
+   */
+  var onCommentsLoaderClick = function () {
+    showNextComments();
+  };
+
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
   window.preview = {
     show: showBigPicture
