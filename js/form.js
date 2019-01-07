@@ -63,7 +63,7 @@
    * Функция масштабирования изображения.
    * @function
    * @param {number} scaleValue число;
-   * @returns {String} строка пригодная для вставки в стили DOM-элемента.
+   * @return {String} строка пригодная для вставки в стили DOM-элемента.
    */
   var scaleble = function (scaleValue) {
     return 'scale(' + scaleValue.replace('%', '') / 100 + ')';
@@ -272,5 +272,5 @@
 
   window.form = {
     onSuccess: onSuccess
-  }
+  };
 })();

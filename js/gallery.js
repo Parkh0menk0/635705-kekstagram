@@ -27,7 +27,7 @@
    */
   var showOriginal = function () {
     renderPictures(pictures);
-  }
+  };
 
   /**
    * Функция для 10 случайных, не повторяющихся фотографий.
@@ -38,7 +38,7 @@
     var data = pictures.slice();
     var index;
     var obj;
-    
+
     for (var i = 0; i < 10; i++) {
       index = window.util.random(0, data.length - 1);
       obj = data.splice(index, 1)[0];
@@ -63,7 +63,7 @@
       return 0;
     });
     renderPictures(picturesSorting);
-  }
+  };
 
   /**
    * Фокус на кнопках перебора.
@@ -88,6 +88,7 @@
    * Функция формирующая картинку.
    * @function
    * @param {object} description - объект, который содержит данные, которые будут добавлены DOM-элементу с классом picture;
+   * @return {object} «глубокая» копия элемента picture – вместе с атрибутами, включая подэлементы.
    */
   var getPictureElement = function (description) {
     var pictureElement = similarPictureTemplate.cloneNode(true);
@@ -128,7 +129,7 @@
   var onSuccess = function (data) {
     pictures = data;
     renderPictures(pictures);
-  }
+  };
 
   /**
    * Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
@@ -153,6 +154,6 @@
       activeButton.classList.remove(ACTIVE_CLASS_NAME);
       button.classList.add(ACTIVE_CLASS_NAME);
     }
-    applyFilter(button.id);
+    window.util.debounce(applyFilter(button.id));
   });
 })();

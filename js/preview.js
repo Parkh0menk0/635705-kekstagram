@@ -36,6 +36,7 @@
    * Функция формирующая комментарий.
    * @function
    * @param {object} comment объект, который содержит данные, которые будут добавлены DOM-элементам;
+   * @return {object} «глубокая» копия элемента social__comment – вместе с атрибутами, включая подэлементы.
    */
   var getCommentElement = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);
@@ -76,7 +77,7 @@
     bigPicture.querySelector('.big-picture__img img').src = descriptions.url;
     bigPicture.querySelector('.likes-count').textContent = descriptions.likes;
     bigPicture.querySelector('.comments-count').textContent = descriptions.comments.length;
-    
+
     cleanComments();
 
     pictureCancel.addEventListener('click', function () {
@@ -104,7 +105,7 @@
     var renderingComments = picture.comments.slice(startIndexComment, startIndexComment + COMMENTS_LIMIT);
     renderComments(renderingComments);
     startIndexComment += COMMENTS_LIMIT;
-    
+
     var allComments = picture.comments.length;
     var showedComments = listComments.childNodes.length;
     // показывается актуальное количество отрисованных комментариев и полное количество комментариев

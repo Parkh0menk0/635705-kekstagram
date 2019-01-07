@@ -9,7 +9,7 @@
    * @function
    * @param {requestCallback} onLoad функция обратного вызова, которая срабатывает при успешном выполнении запроса;
    * @param {requestCallback} onError функция обратного вызова, которая срабатывает при неуспешном выполнении запроса;
-   * @returns {Object} объект XMLHttpRequest.
+   * @return {Object} объект XMLHttpRequest.
    */
   var createXHR = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
