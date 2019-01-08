@@ -70,7 +70,7 @@
    * @function
    * @param {String} value - ID элемента.
    */
-  var applyFilter = function (value) {
+  var applyFilter = window.util.debounce(function (value) {
     switch (value) {
       case 'filter-popular':
         showOriginal();
@@ -82,7 +82,7 @@
         showMostDiscussed();
         break;
     }
-  };
+  });
 
   /**
    * Функция формирующая картинку.
@@ -154,6 +154,6 @@
       activeButton.classList.remove(ACTIVE_CLASS_NAME);
       button.classList.add(ACTIVE_CLASS_NAME);
     }
-    window.util.debounce(applyFilter(button.id));
+    applyFilter(button.id);
   });
 })();
