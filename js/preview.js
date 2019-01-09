@@ -2,12 +2,16 @@
 
 (function () {
   var COMMENTS_LIMIT = 5;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var bigPicture = document.querySelector('.big-picture');
   var listComments = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
   var socialCommentCount = document.querySelector('.social__comment-count');
   var commentsLoader = bigPicture.querySelector('.comments-loader');
+
+  var fileChooser = document.querySelector('.img-upload__start input[type=file]'); // компонент, который выбирает аватарку
+  var preview = document.querySelector('.img-upload__preview img'); // картинка куда вставляется загруженное изображение
 
   var picture;
   var startIndexComment;
@@ -125,6 +129,25 @@
   };
 
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
+
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
 
   window.preview = {
     show: showBigPicture
