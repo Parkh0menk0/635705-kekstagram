@@ -20,7 +20,8 @@
    * Функция действие которой откладывается на попозже, в случае если это действие еще не закончилось,
    * чтобы избежать лишних миганий интерфейса или уменьшить нагрузку на сервер.
    * @function
-   * @param {requestCallback} cb функция.
+   * @param {requestCallback} cb функция, отложенная на потом;
+   * @return {requestCallback} функция, отложенная на потом.
    */
   var debounce = function (cb) {
     var lastTimeout = null;
