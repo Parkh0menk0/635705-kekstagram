@@ -4,6 +4,7 @@
   var COMMENTS_LIMIT = 5;
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
+  var uploadFile = document.getElementById('upload-file');
   var bigPicture = document.querySelector('.big-picture');
   var listComments = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
@@ -146,11 +147,13 @@
       });
 
       reader.readAsDataURL(file);
-    }
 
-    uploadFile.addEventListener('change', function () {
-      openPopup();
-    });
+      uploadFile.addEventListener('change', function () {
+        window.form.openPopup();
+      });
+    } else {
+      window.form.onError();
+    }
   });
 
   window.preview = {

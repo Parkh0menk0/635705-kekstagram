@@ -9,7 +9,6 @@
   var MAX_LENGTH_HASHTAG = 20;
   var MAX_LENGTH_COMMENT = 140;
 
-  var uploadFile = document.getElementById('upload-file');
   var form = document.querySelector('.img-upload__form');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadPreview = document.querySelector('.img-upload__preview img');
@@ -267,6 +266,8 @@
   });
 
   window.form = {
-    onSuccess: onSuccess
+    openPopup: openPopup,
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();
