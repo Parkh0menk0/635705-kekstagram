@@ -147,6 +147,10 @@
 
       reader.readAsDataURL(file);
     }
+
+    uploadFile.addEventListener('change', function () {
+      openPopup();
+    });
   });
 
   window.preview = {

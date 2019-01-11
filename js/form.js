@@ -51,10 +51,6 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  uploadFile.addEventListener('change', function () {
-    openPopup();
-  });
-
   imgUploadCancel.addEventListener('click', function () {
     closePopup();
   });
