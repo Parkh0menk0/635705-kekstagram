@@ -157,3 +157,4 @@
     applyFilter(button.id);
   });
 })();
+
