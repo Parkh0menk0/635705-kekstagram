@@ -95,7 +95,7 @@
 
     pictureElement.querySelector('.picture__img').src = description.url;
     pictureElement.querySelector('.picture__likes').textContent = description.likes;
-    pictureElement.querySelector('.picture__comments').textContent = description.comments;
+    pictureElement.querySelector('.picture__comments').textContent = description.comments.length;
 
     pictureElement.addEventListener('click', function () {
       window.preview.show(description);
