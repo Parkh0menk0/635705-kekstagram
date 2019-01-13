@@ -137,7 +137,7 @@
    * @param {String} errorMessage сообщение об ошибке.
    */
   var onError = function (errorMessage) {
-    window.validation.openError(errorMessage);
+    window.notification.openError(errorMessage);
   };
 
   window.backend.load(onSuccess, onError);

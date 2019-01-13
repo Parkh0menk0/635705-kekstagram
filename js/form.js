@@ -72,8 +72,7 @@
       reader.readAsDataURL(file);
       openPopup();
     } else {
-      // window.validation.openError('Загружаемый Вами файл должен быть картинкой с расширением gif, jpg, jpeg или png!');
-      onError();
+      window.notification.openError('Загружаемый Вами файл должен быть картинкой с расширением gif, jpg, jpeg или png!');
     }
   });
 
@@ -278,13 +277,13 @@
   var onSuccess = function () {
     form.reset();
     closePopup();
-    window.validation.openSuccess();
+    window.notification.openSuccess();
   };
 
   var onError = function () {
     form.reset();
     closePopup();
-    window.validation.openError();
+    window.notification.openError();
   };
 
   form.addEventListener('submit', function (evt) {
