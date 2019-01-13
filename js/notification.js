@@ -9,6 +9,7 @@
    * @function
    * @param {requestCallback} action функция закрывающая попап успешной загрузки (или ошибки) изображения;
    * @param {Number} keyCode численное представление клавиши esc;
+   * @return {requestCallback}
    */
   var onPopupEscPress = function (action, keyCode) {
     return (function (evt) {
