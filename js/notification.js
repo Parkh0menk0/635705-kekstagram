@@ -5,7 +5,7 @@
   var templateError = document.querySelector('#error').content.querySelector('.error');
 
   /**
-   * Функция закрывающая попап по нажатию клавиши esc.
+   * Функция закрывающая попап по нажатию клавиши esc
    * @function
    * @param {requestCallback} action функция закрывающая попап успешной загрузки (или ошибки) изображения;
    * @param {Number} keyCode численное представление клавиши esc;
