@@ -8,9 +8,12 @@
   var MAX_HASHTAGS = 5;
   var MAX_LENGTH_HASHTAG = 20;
   var MAX_LENGTH_COMMENT = 140;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  var uploadFile = document.getElementById('upload-file');
   var form = document.querySelector('.img-upload__form');
+  var uploadFile = document.getElementById('upload-file');
+  var fileChooser = document.querySelector('.img-upload__start input[type=file]'); // компонент, который выбирает аватарку
+  var preview = document.querySelector('.img-upload__preview img'); // картинка куда вставляется загруженное изображение
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadPreview = document.querySelector('.img-upload__preview img');
   var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
@@ -52,7 +55,25 @@
   };
 
   uploadFile.addEventListener('change', function () {
-    openPopup();
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+      openPopup();
+    } else {
+      window.notification.openError('Загружаемый Вами файл должен быть картинкой с расширением gif, jpg, jpeg или png!');
+    }
   });
 
   imgUploadCancel.addEventListener('click', function () {
@@ -256,13 +277,13 @@
   var onSuccess = function () {
     form.reset();
     closePopup();
-    window.validation.openSuccess();
+    window.notification.openSuccess();
   };
 
   var onError = function () {
     form.reset();
     closePopup();
-    window.validation.openError();
+    window.notification.openError();
   };
 
   form.addEventListener('submit', function (evt) {
@@ -271,6 +292,8 @@
   });
 
   window.form = {
-    onSuccess: onSuccess
+    openPopup: openPopup,
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();

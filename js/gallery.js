@@ -95,7 +95,7 @@
 
     pictureElement.querySelector('.picture__img').src = description.url;
     pictureElement.querySelector('.picture__likes').textContent = description.likes;
-    pictureElement.querySelector('.picture__comments').textContent = description.comments;
+    pictureElement.querySelector('.picture__comments').textContent = description.comments.length;
 
     pictureElement.addEventListener('click', function () {
       window.preview.show(description);
@@ -137,7 +137,7 @@
    * @param {String} errorMessage сообщение об ошибке.
    */
   var onError = function (errorMessage) {
-    window.validation.openError(errorMessage);
+    window.notification.openError(errorMessage);
   };
 
   window.backend.load(onSuccess, onError);
