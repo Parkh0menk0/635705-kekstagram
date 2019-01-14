@@ -24,7 +24,7 @@
    * @function
    */
   var successClose = function () {
-    document.closeEventListener('click', onSuccessAnotherClick);
+    document.removeEventListener('click', onSuccessAnotherClick);
     document.removeEventListener('keydown', onSuccessEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .success'));
   };
@@ -34,7 +34,7 @@
    * @function
    */
   var errorClose = function () {
-    document.closeEventListener('click', onErrorAnotherClick);
+    document.removeEventListener('click', onErrorAnotherClick);
     document.removeEventListener('keydown', onErrorEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .error'));
   };
