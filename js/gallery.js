@@ -127,6 +127,7 @@
    * @param {array} data массив объектов, который содержит данные о картинках
    */
   var onSuccess = function (data) {
+    filters.classList.remove('img-filters--inactive');
     pictures = data;
     renderPictures(pictures);
   };
@@ -141,8 +142,6 @@
   };
 
   window.backend.load(onSuccess, onError);
-
-  filters.classList.remove('img-filters--inactive');
 
   filters.addEventListener('click', function (evt) {
     if (evt.target.type !== 'button') {
