@@ -43,6 +43,7 @@
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     applyEffect(DEFAULT_EFFECT_VALUE);
+    setScaleValue(MAX_SCALE_VALUE);
   };
 
   /**
@@ -50,6 +51,7 @@
    * @function
    */
   var closePopup = function () {
+    form.reset();
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -80,34 +82,31 @@
     closePopup();
   });
 
-  /**
-   * Функция масштабирования изображения.
-   * @function
-   * @param {number} scaleValue число;
-   * @return {String} строка пригодная для вставки в стили DOM-элемента.
-   */
-  var scaleble = function (scaleValue) {
-    return 'scale(' + scaleValue.replace('%', '') / 100 + ')';
+  var setScaleValue = function (value) {
+    scale.value = value + '%';
+    imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
   };
 
-  scale.value = 100;
+  var getScaleValue = function () {
+    return Number(scale.value.replace('%', ''));
+  };
 
   scaleControlSmaller.addEventListener('click', function () {
-    var value = Number(scale.value.replace('%', ''));
+    var value = getScaleValue();
     if (value === MIN_SCALE_VALUE) {
       return;
     }
-    scale.value = (value - SCALE_STEP) + '%';
-    imgUploadPreview.style.transform = scaleble(scale.value);
+
+    setScaleValue(value - SCALE_STEP);
   });
 
   scaleControlBigger.addEventListener('click', function () {
-    var value = Number(scale.value.replace('%', ''));
+    var value = getScaleValue();
     if (value === MAX_SCALE_VALUE) {
       return;
     }
-    scale.value = (value + SCALE_STEP) + '%';
-    imgUploadPreview.style.transform = scaleble(scale.value);
+
+    setScaleValue(value + SCALE_STEP);
   });
 
   hashtagInput.addEventListener('input', function (evt) {
@@ -152,6 +151,13 @@
     }
 
     target.setCustomValidity(errorMessage);
+
+    if (errorMessage) {
+      /* Если есть ошибка надо показать красную рамку*/
+      target.classList.add('border-red');
+    } else {
+      target.classList.remove('border-red');
+    }
   });
 
   hashtagInput.addEventListener('focus', function () {
@@ -192,6 +198,7 @@
    */
   var setFilterValue = function (value) {
     var currentEffect = effectsElement.querySelector('input:checked').value;
+    imgUploadPreview.className = 'effects__preview--' + currentEffect;
 
     if (currentEffect === 'none') {
       imgUploadEffectLevel.classList.add('hidden');
@@ -275,13 +282,11 @@
   });
 
   var onSuccess = function () {
-    form.reset();
     closePopup();
     window.notification.openSuccess();
   };
 
   var onError = function () {
-    form.reset();
     closePopup();
     window.notification.openError();
   };
@@ -292,8 +297,6 @@
   });
 
   window.form = {
-    openPopup: openPopup,
-    onSuccess: onSuccess,
-    onError: onError
+    openPopup: openPopup
   };
 })();

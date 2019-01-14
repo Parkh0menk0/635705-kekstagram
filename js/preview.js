@@ -28,6 +28,7 @@
    * @function
    */
   var closeBigPicture = function () {
+    document.querySelector('body').classList.remove('modal-open');
     bigPicture.classList.add('hidden');
     document.removeEventListener('keydown', onBigPictureEscPress);
   };
@@ -73,6 +74,7 @@
     var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
     bigPicture.classList.remove('hidden');
+    document.querySelector('body').classList.add('modal-open');
 
     bigPicture.querySelector('.big-picture__img img').src = descriptions.url;
     bigPicture.querySelector('.likes-count').textContent = descriptions.likes;

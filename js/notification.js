@@ -24,6 +24,7 @@
    * @function
    */
   var successClose = function () {
+    document.removeEventListener('click', onSuccessAnotherClick);
     document.removeEventListener('keydown', onSuccessEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .success'));
   };
@@ -33,6 +34,7 @@
    * @function
    */
   var errorClose = function () {
+    document.removeEventListener('click', onErrorAnotherClick);
     document.removeEventListener('keydown', onErrorEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .error'));
   };
@@ -54,6 +56,7 @@
       successClose();
     });
 
+    document.addEventListener('click', onSuccessAnotherClick);
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
@@ -74,7 +77,22 @@
         errorClose();
       });
     }
+    document.addEventListener('click', onErrorAnotherClick);
     document.addEventListener('keydown', onErrorEscPress);
+  };
+
+  var onSuccessAnotherClick = function (evt) {
+    var successInner = document.querySelector('main').querySelector('.success__inner');
+    if (evt.target !== successInner) {
+      successClose();
+    }
+  };
+
+  var onErrorAnotherClick = function (evt) {
+    var errorInner = document.querySelector('main').querySelector('.error__inner');
+    if (evt.target !== errorInner) {
+      errorClose();
+    }
   };
 
   window.notification = {
