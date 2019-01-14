@@ -54,6 +54,7 @@
       successClose();
     });
 
+    document.addEventListener('click', onSuccessAnotherClick);
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
@@ -74,7 +75,22 @@
         errorClose();
       });
     }
+    document.addEventListener('click', onErrorAnotherClick);
     document.addEventListener('keydown', onErrorEscPress);
+  };
+
+  var onSuccessAnotherClick = function (evt) {
+    var successInner = document.querySelector('main').querySelector('.success__inner');
+    if (evt.target !== successInner) {
+      successClose();
+    }
+  };
+
+  var onErrorAnotherClick = function (evt) {
+    var errorInner = document.querySelector('main').querySelector('.error__inner');
+    if (evt.target !== errorInner) {
+      errorClose();
+    }
   };
 
   window.notification = {

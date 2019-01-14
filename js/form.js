@@ -51,6 +51,7 @@
    * @function
    */
   var closePopup = function () {
+    form.reset();
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -80,8 +81,6 @@
   imgUploadCancel.addEventListener('click', function () {
     closePopup();
   });
-
-  scale.value = 100;
 
   var setScaleValue = function (value) {
     scale.value = value + '%';
@@ -283,13 +282,11 @@
   });
 
   var onSuccess = function () {
-    form.reset();
     closePopup();
     window.notification.openSuccess();
   };
 
   var onError = function () {
-    form.reset();
     closePopup();
     window.notification.openError();
   };
