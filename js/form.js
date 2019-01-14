@@ -85,11 +85,11 @@
   var setScaleValue = function (value) {
     scale.value = value + '%';
     imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
-  }
+  };
 
   var getScaleValue = function () {
     return Number(scale.value.replace('%', ''));
-  }
+  };
 
   scaleControlSmaller.addEventListener('click', function () {
     var value = getScaleValue();
