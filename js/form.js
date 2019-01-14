@@ -192,6 +192,7 @@
    */
   var setFilterValue = function (value) {
     var currentEffect = effectsElement.querySelector('input:checked').value;
+    imgUploadPreview.classList.add('effects__preview--' + currentEffect);
 
     if (currentEffect === 'none') {
       imgUploadEffectLevel.classList.add('hidden');
