@@ -297,8 +297,6 @@
   });
 
   window.form = {
-    openPopup: openPopup,
-    onSuccess: onSuccess,
-    onError: onError
+    openPopup: openPopup
   };
 })();
